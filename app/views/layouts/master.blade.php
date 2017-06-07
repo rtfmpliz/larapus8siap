@@ -3,6 +3,7 @@
 <head>
 <title>@yield('title') | Laravel Perpus</title>
 <link rel="stylesheet" href="{{ asset('packages/uikit/css/uikit.almost-flat.min.css')}}" />
+<link rel="stylesheet" href="{{ asset('css/app.css')}}" />
 <script src="{{ asset('components/jquery/jquery.min.js')}}"></script>
 <script src="{{ asset('packages/uikit/js/uikit.min.js')}}"></script>
 @yield('asset')
@@ -16,6 +17,7 @@
 </ul>
 <div class="uk-navbar-flip uk-navbar-content">
 <a href="#">{{ Sentry::getUser()->first_name . ' ' . Sentry::getUser()->last_name }}</a> |
+
 <a href="{{ URL::to('logout') }}">Logout</a>
 </div>
 <div class="uk-navbar-brand uk-navbar-center uk-visible-small">LaraPus</div>

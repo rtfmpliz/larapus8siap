@@ -27,5 +27,5 @@ array(
 ))
 ->setOptions('bProcessing', true)
 ->setUrl(route('admin.authors.index'))
-->render() }}
+->render('datatable.uikit') }}
 @stop

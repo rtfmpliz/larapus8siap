@@ -3,8 +3,10 @@
 <head>
 <title>Perpustakaan Online dengan Framework Laravel</title>
 <link rel="stylesheet" href="{{ asset('packages/uikit/css/uikit.almost-flat.min.css')}}" />
+<link rel="stylesheet" href="{{ asset('css/app.css')}}" />
 <script src="{{ asset('components/jquery/jquery.min.js')}}"></script>
 <script src="{{ asset('packages/uikit/js/uikit.min.js')}}"></script>
+@yield('asset')
 </head>
 <body>
 <div class="uk-container uk-container-center uk-margin-top">
