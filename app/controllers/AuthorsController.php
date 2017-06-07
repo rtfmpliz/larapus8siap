@@ -35,7 +35,9 @@ return View::make('authors.index')->withTitle('Penulis');
 	 */
 	public function create()
 	{
-		return View::make('authors.create');
+		// return View::make('authors.create');
+	
+		return View::make('authors.create')->withTitle('Tambah Penulis');
 	}
 
 	/**
@@ -45,16 +47,24 @@ return View::make('authors.index')->withTitle('Penulis');
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), Author::$rules);
+		// $validator = Validator::make($data = Input::all(), Author::$rules);
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
+		// if ($validator->fails())
+		// {
+		// 	return Redirect::back()->withErrors($validator)->withInput();
+		// }
 
-		Author::create($data);
+		// Author::create($data);
 
-		return Redirect::route('authors.index');
+		// return Redirect::route('authors.index');
+	$validator = Validator::make($data = Input::all(), Author::$rules);
+if ($validator->fails())
+{
+return Redirect::back()->withErrors($validator)->withInput();
+}
+$author = Author::create($data);
+return Redirect::route('admin.authors.index')->with("successMessage", "Berhasil menyimpan $author->name ");
+
 	}
 
 	/**
@@ -118,4 +128,8 @@ return View::make('authors.index')->withTitle('Penulis');
 		return Redirect::route('authors.index');
 	}
 
+
+
+
 }
+
