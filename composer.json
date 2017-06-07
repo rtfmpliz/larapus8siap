@@ -10,6 +10,10 @@
 "components/jquery": "2.1.0",
 "way/generators": "2.6.*"
 	},
+	"require-dev" : {
+ "way/generators": "2.*"
+ },
+
 	"autoload": {
 		"classmap": [
 			"app/commands",

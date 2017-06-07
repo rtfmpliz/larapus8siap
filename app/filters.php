@@ -57,6 +57,17 @@ return Redirect::guest('login')->with('errorMessage', 'Silahkan login terlebih d
 }
 });
 
+Route::filter('admin', function()
+{
+$user = Sentry::getUser();
+// Cari grup admin
+$admin = Sentry::findGroupByName('admin');
+if (!$user->inGroup($admin)) {
+return Redirect::to('dashboard')->with("errorMessage", "Ooopppsss... Anda tidak tidak diizinkan untuk mengakses halaman itu.");
+}
+});
+
+
 Route::filter('auth.basic', function()
 {
 	return Auth::basic();
