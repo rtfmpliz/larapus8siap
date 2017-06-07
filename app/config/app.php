@@ -124,6 +124,7 @@ return array(
 
 		'Cartalyst\Sentry\SentryServiceProvider',
 		 'Way\Generators\GeneratorsServiceProvider',
+		 'Chumper\Datatable\DatatableServiceProvider',
 
 	),
 
@@ -193,6 +194,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Sentry' => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
+		 'Datatable' => 'Chumper\Datatable\Facades\DatatableFacade',
 
 	),
 

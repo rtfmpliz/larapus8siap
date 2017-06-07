@@ -8,7 +8,10 @@
 		"cartalyst/sentry": "2.1.4",
 "uikit/uikit": "2.8.*",
 "components/jquery": "2.1.0",
-"way/generators": "2.6.*"
+"way/generators": "2.6.*",
+"datatables/datatables": "1.10.0",
+"chumper/datatable": "2.3"
+
 	},
 	"require-dev" : {
  "way/generators": "2.*"
