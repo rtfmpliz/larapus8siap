@@ -37,7 +37,9 @@ try {
 // authentikasi user
 $user = Sentry::authenticate($credentials, false);
 // Redirect user ke dashboard
-return Redirect::to('dashboard');
+// return Redirect::to('dashboard');
+return Redirect::intended('dashboard');
+
 } catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
 return Redirect::back()->with('errorMessage', 'Password yang Anda masukan salah.');
 } catch (Exception $e) {
