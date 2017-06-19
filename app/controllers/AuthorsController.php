@@ -13,12 +13,25 @@ class AuthorsController extends \BaseController {
 
 		// return View::make('authors.index', compact('authors'));
 	
-if(Datatable::shouldHandle())
+// if(Datatable::shouldHandle())
+// {
+// return Datatable::collection(Author::all(array('id','name')))
+// ->showColumns('id', 'name')
+// ->addColumn('', function ($model) {
+// return 'edit | hapus';
+// })
+// ->searchColumns('name')
+// ->orderColumns('name')
+// ->make();
+// }
+// return View::make('authors.index')->withTitle('Penulis');
+
+	if(Datatable::shouldHandle())
 {
 return Datatable::collection(Author::all(array('id','name')))
 ->showColumns('id', 'name')
 ->addColumn('', function ($model) {
-return 'edit | hapus';
+return '<a href="'.route('admin.authors.edit', ['authors'=>$model->id]).'">edit</a> | hapus';
 })
 ->searchColumns('name')
 ->orderColumns('name')
@@ -88,9 +101,12 @@ return Redirect::route('admin.authors.index')->with("successMessage", "Berhasil 
 	 */
 	public function edit($id)
 	{
-		$author = Author::find($id);
+		// $author = Author::find($id);
 
-		return View::make('authors.edit', compact('author'));
+		// return View::make('authors.edit', compact('author'));
+	
+		$author = Author::find($id);
+return View::make('authors.edit', ['author'=>$author])->withTitle("Ubah $author->name");
 	}
 
 	/**
@@ -101,18 +117,27 @@ return Redirect::route('admin.authors.index')->with("successMessage", "Berhasil 
 	 */
 	public function update($id)
 	{
+		// $author = Author::findOrFail($id);
+
+		// $validator = Validator::make($data = Input::all(), Author::$rules);
+
+		// if ($validator->fails())
+		// {
+		// 	return Redirect::back()->withErrors($validator)->withInput();
+		// }
+
+		// $author->update($data);
+
+		// return Redirect::route('authors.index');
+	
 		$author = Author::findOrFail($id);
-
-		$validator = Validator::make($data = Input::all(), Author::$rules);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		$author->update($data);
-
-		return Redirect::route('authors.index');
+$validator = Validator::make($data = Input::all(), $author->updateRules());
+if ($validator->fails())
+{
+return Redirect::back()->withErrors($validator)->withInput();
+}
+$author->update($data);
+return Redirect::route('admin.authors.index')->with("successMessage", "Berhasil menyimpan $author->name ");
 	}
 
 	/**
