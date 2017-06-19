@@ -12,5 +12,9 @@ class Author extends BaseModel {
 
 	// Don't forget to fill this array
 	protected $fillable = ['name'];
+	public function books()
+{
+return $this->hasMany('Book');
+}
 
 }

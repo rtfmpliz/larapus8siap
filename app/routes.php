@@ -29,6 +29,7 @@ Route::get('dashboard', 'HomeController@dashboard');
 Route::group(array('prefix' => 'admin', 'before' => 'admin'), function()
 {
 Route::resource('authors', 'AuthorsController');
+Route::resource('books', 'BooksController');
 });
 });
 

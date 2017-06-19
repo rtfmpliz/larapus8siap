@@ -2023,6 +2023,10 @@ var components = {
         {
             "name": "jquery",
             "main": "jquery-built.js"
+        },
+        {
+            "name": "select2",
+            "main": "select2-built.js"
         }
     ],
     "baseUrl": "components"

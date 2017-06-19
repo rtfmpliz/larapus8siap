@@ -26,12 +26,29 @@ class AuthorsController extends \BaseController {
 // }
 // return View::make('authors.index')->withTitle('Penulis');
 
-	if(Datatable::shouldHandle())
+// 	if(Datatable::shouldHandle())
+// {
+// return Datatable::collection(Author::all(array('id','name')))
+// ->showColumns('id', 'name')
+// ->addColumn('', function ($model) {
+// return '<a href="'.route('admin.authors.edit', ['authors'=>$model->id]).'">edit</a> | hapus';
+// })
+// ->searchColumns('name')
+// ->orderColumns('name')
+// ->make();
+// }
+// return View::make('authors.index')->withTitle('Penulis');
+
+if(Datatable::shouldHandle())
 {
 return Datatable::collection(Author::all(array('id','name')))
 ->showColumns('id', 'name')
 ->addColumn('', function ($model) {
-return '<a href="'.route('admin.authors.edit', ['authors'=>$model->id]).'">edit</a> | hapus';
+$html = '<a href="'.route('admin.authors.edit', ['authors'=>$model->id]).'" class="uk-button uk-button-small uk-button-link">edit</a> ';
+$html .= Form::open(array('url' => route('admin.authors.destroy', ['authors'=>$model->id]), 'method'=>'delete', 'class'=>'uk-display-inline'));
+$html .= Form::submit('delete', array('class' => 'uk-button uk-button-small'));
+$html .= Form::close();
+return $html;
 })
 ->searchColumns('name')
 ->orderColumns('name')
@@ -148,9 +165,13 @@ return Redirect::route('admin.authors.index')->with("successMessage", "Berhasil 
 	 */
 	public function destroy($id)
 	{
-		Author::destroy($id);
+		// Author::destroy($id);
 
-		return Redirect::route('authors.index');
+		// return Redirect::route('authors.index');
+		// 
+		// 
+	Author::destroy($id);
+return Redirect::route('admin.authors.index')->with('successMessage', 'Penulis berhasil dihapus.');
 	}
 
 
