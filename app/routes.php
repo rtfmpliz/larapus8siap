@@ -11,21 +11,24 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
-Route::get('/', function()
-{
-return View::make('guest.index');
-});
-
+// Route::get('/', function()
+// {
+// 	return View::make('hello');
+// });
+// Route::get('/', function()
+// {
+// return View::make('guest.index');
+// });
+Route::get('/', 'GuestController@index');
 // Route::get('/dashboard', 'HomeController@dashboard');
 
 // Route::get('dashboard', array('before' => 'auth', 'uses' => 'HomeController@dashboard'));
-
+Route::get('datatable/books/borrow', array('as'=>'datatable.books.borrow', 'uses'=>'BooksController@borrowDatatable'));
 Route::group(array('before' => 'auth'), function () {
 Route::get('dashboard', 'HomeController@dashboard');
+
+Route::get('books', array('as'=>'member.books', 'uses'=>'MemberController@books'));
+Route::get('books/{book}/borrow', array('as'=>'books.borrow', 'uses'=>'BooksController@borrow'));
 Route::group(array('prefix' => 'admin', 'before' => 'admin'), function()
 {
 Route::resource('authors', 'AuthorsController');

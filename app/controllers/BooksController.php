@@ -296,4 +296,33 @@ return Redirect::route('admin.books.index')->with("successMessage", "Berhasil me
 		// return Redirect::route('books.index');
 	}
 
+public function borrow($id)
+{
+$book = Book::findOrFail($id);
+$book->borrow();
+return Redirect::back()->with("successMessage", "Anda telah meminjam $book->title");
 }
+
+
+public function borrowDatatable()
+{
+// eager load author untuk menghemat query sql
+return Datatable::collection(Book::with('author')->get())
+->showColumns('id', 'title', 'amount')
+// menggunakan closure untuk menampilkan nama penulis dari relasi
+->addColumn('author', function ($model) {
+return $model->author->name;
+})
+// menggunakan helper untuk membuat link
+->addColumn('', function ($model) {
+return link_to_route('books.borrow', 'Pinjam', ['book'=>$model->id]);
+})
+->searchColumns('title', 'amount', 'author')
+->orderColumns('title', 'amount', 'author')
+->make();
+}
+
+
+}
+
+

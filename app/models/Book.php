@@ -23,4 +23,15 @@ protected $fillable = ['title','author_id','amount'];
 return $this->belongsTo('Author');
 }
 
+public function users()
+{
+return $this->belongsToMany('User')->withPivot('returned')->withTimestamps();
+}
+public function borrow()
+{
+// ambil user yang sedang login
+$user = Sentry::getUser();
+// attach user ke buku
+return $this->users()->attach($user);
+}
 }
