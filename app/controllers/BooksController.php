@@ -322,6 +322,11 @@ return link_to_route('books.borrow', 'Pinjam', ['book'=>$model->id]);
 ->make();
 }
 
+public function __construct()
+{
+// Letakan filter regularUser sebelum memanggil fungsi borrow
+$this->beforeFilter('regularUser', array( 'only' => array('borrow') ) );
+}
 
 }
 
