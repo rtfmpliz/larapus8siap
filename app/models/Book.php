@@ -44,5 +44,10 @@ return $this->belongsToMany('User')->withPivot('returned')->withTimestamps();
  return $this->users()->attach($user);
  }
 
+ public function returnBack()
+ {
+ $user = Sentry::getUser();
+ return $user->books()->updateExistingPivot($this->id, ['returned'=>1], true);
+ }
 
 }
