@@ -296,12 +296,24 @@ return Redirect::route('admin.books.index')->with("successMessage", "Berhasil me
 		// return Redirect::route('books.index');
 	}
 
-public function borrow($id)
-{
-$book = Book::findOrFail($id);
-$book->borrow();
-return Redirect::back()->with("successMessage", "Anda telah meminjam $book->title");
-}
+// public function borrow($id)
+// {
+// $book = Book::findOrFail($id);
+// $book->borrow();
+// return Redirect::back()->with("successMessage", "Anda telah meminjam $book->title");
+// }
+
+ public function borrow($id)
+ {
+ $book = Book::findOrFail($id);
+ try {
+ $book->borrow();
+ } catch (BookAlreadyBorrowedException $e) {
+ // masukkan message dari exception ke variable errorMessage
+ return Redirect::back()->with('errorMessage', $e->getMessage());
+ }
+ return Redirect::back()->with("successMessage", "Anda telah meminjam $book->title");
+ }
 
 
 public function borrowDatatable()
