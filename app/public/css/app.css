@@ -26,4 +26,10 @@ outline: 0;
 background: #f5fbfe;
 color: #444444;
 }
+.select2-container .select2-choice {
+
+ width: 183px;
+
+ }
+
 /* -- end datatables --

@@ -170,8 +170,16 @@ return Redirect::route('admin.authors.index')->with("successMessage", "Berhasil 
 		// return Redirect::route('authors.index');
 		// 
 		// 
-	Author::destroy($id);
-return Redirect::route('admin.authors.index')->with('successMessage', 'Penulis berhasil dihapus.');
+// 	Author::destroy($id);
+// return Redirect::route('admin.authors.index')->with('successMessage', 'Penulis berhasil dihapus.');
+	
+// mengecek apakah author bisa dihapus
+if (!Author::destroy($id))
+{
+return Redirect::back();
+}
+return Redirect::route('admin.authors.index')->with('successMessage', 'Penulis berhas\
+il dihapus.');
 	}
 
 
