@@ -1,4 +1,4 @@
-{{-- @extends('layouts.guest')
+<!-- {{-- @extends('layouts.guest')
 @section('content')
 <h1 class="uk-heading-large">Daftar Buku</h1>
 <table class="uk-table uk-table-striped uk-table-hover">
@@ -38,7 +38,7 @@
 </tbody>
 </table>
 @stop --}}
-
+ -->
 
 @section('asset')
 @include('layouts.partials.datatable')
