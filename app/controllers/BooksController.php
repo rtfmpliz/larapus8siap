@@ -239,45 +239,57 @@ return View::make('books.create')->withTitle('Tambah Buku');
  // }
 
 
+// public function update($id)
+// {
+// 	$book = Book::findOrFail($id);
+
+// 	$validator = Validator::make(Input::all(), $book->updateRules());
+// 	if($validator->fails()){
+// return Redirect::back()->withErrors($validator)->withInput();}
+// if (Input::hasFile('cover')) {
+// $filename = null;
+// $uploaded_cover = Input::file('cover');
+// $extension = $uploaded_cover->getClientOriginalExtension();
+// // membuat nama file random dengan extension
+// $filename = md5(time()) . '.' . $extension;
+// $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
+// // memindahkan file ke folder public/img
+// $uploaded_cover->move($destinationPath, $filename);
+// // hapus cover lama, jika ada
+// if ($book->cover) {
+// $old_cover = $book->cover;
+// $filepath = public_path() . DIRECTORY_SEPARATOR . 'img'
+// . DIRECTORY_SEPARATOR . $book->cover;
+// try {
+// File::delete($filepath);
+// } catch (FileNotFoundException $e) {
+// }
+// }
+// // File sudah dihapus/tidak ada
+// }
+// // ganti field cover dengan cover yang baru
+// $book->cover = $filename;
+// $book->save();
+// if (!$book->update(Input::except('cover'))) {
+// return Redirect::back();
+// }
+// return Redirect::route('admin.books.index')->with("successMessage", "Berhasil menyimpan $book->title. ");
+// }
+
+
 public function update($id)
 {
-	$book = Book::findOrFail($id);
-
-	$validator = Validator::make(Input::all(), $book->updateRules());
-	if($validator->fails()){
-return Redirect::back()->withErrors($validator)->withInput();}
-if (Input::hasFile('cover')) {
-$filename = null;
-$uploaded_cover = Input::file('cover');
-$extension = $uploaded_cover->getClientOriginalExtension();
-// membuat nama file random dengan extension
-$filename = md5(time()) . '.' . $extension;
-$destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
-// memindahkan file ke folder public/img
-$uploaded_cover->move($destinationPath, $filename);
-// hapus cover lama, jika ada
-if ($book->cover) {
-$old_cover = $book->cover;
-$filepath = public_path() . DIRECTORY_SEPARATOR . 'img'
-. DIRECTORY_SEPARATOR . $book->cover;
-try {
-File::delete($filepath);
-} catch (FileNotFoundException $e) {
+$book = Book::findOrFail($id);
+$validator = Validator::make($data = Input::all(), $book->updateRules());
+if ($validator->fails())
+{
+return Redirect::back()->withErrors($validator)->withInput();
 }
-}
-// File sudah dihapus/tidak ada
-}
-// ganti field cover dengan cover yang baru
-$book->cover = $filename;
-$book->save();
-if (!$book->update(Input::except('cover'))) {
+if (!$book->update($data)) {
 return Redirect::back();
 }
 return Redirect::route('admin.books.index')->with("successMessage", "Berhasil menyimpan $book->title. ");
 }
-
-
-
 
 
 
@@ -287,14 +299,22 @@ return Redirect::route('admin.books.index')->with("successMessage", "Berhasil me
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		Book::destroy($id);
-		 return Redirect::route('admin.books.index')->with('successMessage', 'Buku berhasil dihapus.');
+	// public function destroy($id)
+	// {
+	// 	Book::destroy($id);
+	// 	 return Redirect::route('admin.books.index')->with('successMessage', 'Buku berhasil dihapus.');
 
 
-		// return Redirect::route('books.index');
-	}
+	// 	// return Redirect::route('books.index');
+	// }
+
+public function destroy($id)
+{
+if (!Book::destroy($id)) {
+return Redirect::back();
+}
+return Redirect::route('admin.books.index')->with('successMessage', 'Buku berhasil dihapus.');
+}
 
 // public function borrow($id)
 // {

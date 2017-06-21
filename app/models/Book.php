@@ -86,5 +86,46 @@ $borrowed = DB::table('book_user')
 $stock = $this->amount - $borrowed;
 return $stock;
 }
+public static function boot()
+{
+parent::boot();
+self::updating(function($book)
+{
+$borrowed = DB::table('book_user')
+->where('book_id', $book->id)
+->where('returned', 0)
+->count();
+if ($book->amount < $borrowed) {
+Session::flash('errorMessage', "Jumlah buku $book->title harus >= $borrowed");
+return false;
+}
+});
+
+self::deleting(function($book)
+{
+$borrowed = DB::table('book_user')
+->where('book_id', $book->id)
+->where('returned', 0)
+->count();
+if ($borrowed > 0) {
+Session::flash('errorMessage', "Buku $book->title masih dipinjam.");
+return false;
+}
+});
+}
+
+// public function update($id)
+// {
+// $book = Book::findOrFail($id);
+// $validator = Validator::make($data = Input::all(), $book->updateRules());
+// if ($validator->fails())
+// {
+// return Redirect::back()->withErrors($validator)->withInput();
+// }
+// if (!$book->update($data)) {
+// return Redirect::back();
+// }
+// return Redirect::route('admin.books.index')->with("successMessage", "Berhasil menyimpan $book->title. ");
+// }
 
 }
