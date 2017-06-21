@@ -340,6 +340,13 @@ public function __construct()
 $this->beforeFilter('regularUser', array( 'only' => array('borrow') ) );
 }
 
+public function returnBack($id)
+{
+$book = Book::findOrFail($id);
+$book->returnBack();
+return Redirect::back()->with("successMessage", "Anda telah mengembalikan $book->title.");
+}
+
 }
 
 

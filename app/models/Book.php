@@ -1,3 +1,4 @@
+
 <?php
 
 class Book extends BaseModel{
@@ -44,10 +45,23 @@ return $this->belongsToMany('User')->withPivot('returned')->withTimestamps();
  return $this->users()->attach($user);
  }
 
- public function returnBack()
- {
- $user = Sentry::getUser();
- return $user->books()->updateExistingPivot($this->id, ['returned'=>1], true);
- }
+ // public function returnBack()
+ // {
+ // $user = Sentry::getUser();
+ // return $user->books()->updateExistingPivot($this->id, ['returned'=>1], true);
+ // }
+
+public function returnBack()
+{
+$user = Sentry::getUser();
+DB::table('book_user')
+->where('book_id', $this->id)
+->where('user_id', $user->id)
+->where('returned', 0)
+->update(array(
+'returned' => 1,
+'updated_at' => $this->freshTimestamp()
+));
+}
 
 }

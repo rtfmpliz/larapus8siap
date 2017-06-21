@@ -21,10 +21,32 @@ protected $layout = 'layouts.master';
 		return View::make('hello');
 	}
 
-	public function dashboard()
+// 	public function dashboard()
+// {
+// $this->layout->content = View::make('dashboard.index')->withTitle('Dashboard');
+// }
+
+public function dashboard()
 {
-$this->layout->content = View::make('dashboard.index')->withTitle('Dashboard');
+$user = Sentry::getUser();
+$admin = Sentry::findGroupByName('admin');
+$regular = Sentry::findGroupByName('regular');
+// is admin
+if ($user->inGroup($admin)) {
+$this->layout->content = View::make('dashboard.admin')->withTitle('Dashboard');
 }
+// is regular user
+// 
+// if ($user->inGroup($regular)) {
+// $this->layout->content = View::make('dashboard.regular')->withTitle('Dashboard');
+
+// is regular user
+if ($user->inGroup($regular)) {
+$this->layout->content = View::make('dashboard.regular')
+->withTitle('Dashboard')
+->withBooks($user->books()->wherePivot('returned', 0)->get());
+
+}}
 
 public function authenticate()
 {

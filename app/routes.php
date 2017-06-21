@@ -29,6 +29,7 @@ Route::get('dashboard', 'HomeController@dashboard');
 
 Route::get('books', array('as'=>'member.books', 'uses'=>'MemberController@books'));
 Route::get('books/{book}/borrow', array('as'=>'books.borrow', 'uses'=>'BooksController@borrow'));
+Route::get('books/{book}/return', array('as'=>'books.return', 'uses'=>'BooksController@returnBack'));
 Route::group(array('prefix' => 'admin', 'before' => 'admin'), function()
 {
 Route::resource('authors', 'AuthorsController');
