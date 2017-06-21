@@ -61,3 +61,11 @@ $url = route($url);
 }
 return '<a class="uk-button uk-button-primary" href="'.$url.'">Tambah</a>';
 });
+
+HTML::macro('smartNav', function($url, $title) {
+$class = '';
+if ($url == Request::url()) {
+$class = 'uk-active';
+}
+return "<li class=\"$class\"><a href=\"$url\">$title</a></li>";
+});

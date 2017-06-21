@@ -1,3 +1,3 @@
 <?php
-class BookAlreadyBorrowedException extends Exception { 
+class BookAlreadyBorrowedException extends BookException { 
 }

@@ -44,7 +44,9 @@ $this->layout->content = View::make('dashboard.admin')->withTitle('Dashboard');
 if ($user->inGroup($regular)) {
 $this->layout->content = View::make('dashboard.regular')
 ->withTitle('Dashboard')
-->withBooks($user->books()->wherePivot('returned', 0)->get());
+->withBooks($user->books()->wherePivot('returned', 0)->get())
+
+->withLastlogin($user->last_login->diffForHumans());
 
 }}
 

@@ -2,7 +2,7 @@
 <?php
 
 class Book extends BaseModel{
-
+protected $appends = ['stock'];
 	// Add your validation rules here
 	public static $rules = [
 		// 'title' => 'required'
@@ -35,15 +35,28 @@ return $this->belongsToMany('User')->withPivot('returned')->withTimestamps();
 // // attach user ke buku
 // return $this->users()->attach($user);
 // }
- public function borrow()
- {
- $user = Sentry::getUser();
- // cek apakah buku ini sedang dipinjam oleh user
- if( $user->books()->wherePivot('book_id',$this->id)->wherePivot('returned', 0)->count() > 0 ) {
- throw new BookAlreadyBorrowedException("Buku $this->title sedang Anda pinjam.");
- }
- return $this->users()->attach($user);
- }
+ // public function borrow()
+ // {
+ // $user = Sentry::getUser();
+ // // cek apakah buku ini sedang dipinjam oleh user
+ // if( $user->books()->wherePivot('book_id',$this->id)->wherePivot('returned', 0)->count() > 0 ) {
+ // throw new BookAlreadyBorrowedException("Buku $this->title sedang Anda pinjam.");
+ // }
+ // return $this->users()->attach($user);
+ // }
+
+public function borrow()
+{
+$user = Sentry::getUser();
+// cek apakah buku ini sedang dipinjam oleh user
+if($user->books()->wherePivot('book_id',$this->id)->wherePivot('returned', 0)->count() > 0 ) {
+throw new BookAlreadyBorrowedException("Buku $this->title sedang Anda pinjam.");
+}
+if($this->stock == 0) {
+throw new BookOutOfStockException("Buku $this->title sudah tidak tersedia.");
+}
+return $this->users()->attach($user);
+}
 
  // public function returnBack()
  // {
@@ -62,6 +75,16 @@ DB::table('book_user')
 'returned' => 1,
 'updated_at' => $this->freshTimestamp()
 ));
+}
+
+public function getStockAttribute()
+{
+$borrowed = DB::table('book_user')
+->where('book_id', $this->id)
+->where('returned', 0)
+->count();
+$stock = $this->amount - $borrowed;
+return $stock;
 }
 
 }

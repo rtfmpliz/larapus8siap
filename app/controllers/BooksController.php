@@ -308,7 +308,7 @@ return Redirect::route('admin.books.index')->with("successMessage", "Berhasil me
  $book = Book::findOrFail($id);
  try {
  $book->borrow();
- } catch (BookAlreadyBorrowedException $e) {
+ } catch (BookException $e) {
  // masukkan message dari exception ke variable errorMessage
  return Redirect::back()->with('errorMessage', $e->getMessage());
  }
@@ -316,11 +316,29 @@ return Redirect::route('admin.books.index')->with("successMessage", "Berhasil me
  }
 
 
+// public function borrowDatatable()
+// {
+// // eager load author untuk menghemat query sql
+// return Datatable::collection(Book::with('author')->get())
+// ->showColumns('id', 'title', 'amount')
+// // menggunakan closure untuk menampilkan nama penulis dari relasi
+// ->addColumn('author', function ($model) {
+// return $model->author->name;
+// })
+// // menggunakan helper untuk membuat link
+// ->addColumn('', function ($model) {
+// return link_to_route('books.borrow', 'Pinjam', ['book'=>$model->id]);
+// })
+// ->searchColumns('title', 'amount', 'author')
+// ->orderColumns('title', 'amount', 'author')
+// ->make();
+// }
+
 public function borrowDatatable()
 {
 // eager load author untuk menghemat query sql
 return Datatable::collection(Book::with('author')->get())
-->showColumns('id', 'title', 'amount')
+->showColumns('id', 'title', 'amount', 'stock')
 // menggunakan closure untuk menampilkan nama penulis dari relasi
 ->addColumn('author', function ($model) {
 return $model->author->name;
